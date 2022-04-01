@@ -14,25 +14,28 @@ public class Calculatrice extends Application {
     Text text = new Text(""); //create a new text
 
     public void start(Stage stage) throws Exception {
+
+
         text.setFill(Color.BLACK); // define the text color
         text.setFont(Font.font("", 30));  // define the text size
         String[] number = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }; //String array
-        Button[] b = new Button[10]; // create a new Buton array
+        Button[] b = new Button[10]; // create a new Button array
 
         String[] operate= {"/","X","-","+","="}; //String array
-        Button[] o=new Button[5]; //
-        GridPane gdpane = new GridPane();
+        Button[] o=new Button[5]; // create a new Button array
+        GridPane gdpane = new GridPane(); // create a new gridpane
 
         for(int i=0;i<5;i++) {
             o[i]=new Button(operate[i]);
             o[i].setPrefSize(80, 40);
-            String s=operate[i].toString();     //字符串数组转字符串
-            o[i].setOnAction(e->add(s));
+            String s=operate[i].toString();     //String array to string
+            o[i].setOnAction(e->add(s));  //to produce an action when it is clicked
         }
 
+        // create Buttons
         Button zc = new Button("%");
         Button ce = new Button("ce");
-        ce.setOnAction(e->add("ce"));
+        ce.setOnAction(e->add("ce"));  //to produce an action when it is clicked
         Button yes = new Button("e");
         Button x2 = new Button("x²");
         Button x1 = new Button("1/x");
@@ -41,11 +44,11 @@ public class Calculatrice extends Application {
         Button addandmin = new Button("±");
         Button point = new Button(".");
         for (int i = 0; i < 10; i++) {
-            b[i] = new Button(number[i]);
-            b[i].setPrefSize(80, 40);
+            b[i] = new Button(number[i]); //button array
+            b[i].setPrefSize(80, 40); // b(10) buttons size et color
             b[i].setStyle("-fx-base:DARKSALMON");
         }
-
+        // button size
         ce.setPrefSize(80, 40);
         zc.setPrefSize(80, 40);
         yes.setPrefSize(80, 40);
@@ -56,7 +59,8 @@ public class Calculatrice extends Application {
         addandmin.setPrefSize(80, 40);
         point.setPrefSize(80, 40);
 
-        ce.setStyle("-fx-base: DARKSALMON");         //这里设置成颜色了
+        //buttons color
+        ce.setStyle("-fx-base: DARKSALMON");
         zc.setStyle("-fx-base: DARKSALMON");
         yes.setStyle("-fx-base:DARKSALMON");
         x2.setStyle("-fx-base: DARKSALMON");
@@ -71,9 +75,11 @@ public class Calculatrice extends Application {
         addandmin.setStyle("-fx-base: DARKSALMON");
         point.setStyle("-fx-base: DARKSALMON");
 
+        // Borderpane divides its layout area
         BorderPane pane = new BorderPane();
         pane.setPadding(new Insets(8, 8, 8, 8));
 
+        //HBox lays out its children in a single horizontal row.
         HBox hbox = new HBox();
 
         BorderPane pane1 = new BorderPane();
@@ -103,6 +109,8 @@ public class Calculatrice extends Application {
             String carriage = String.valueOf(i);
             b[i].setOnAction(e -> add(carriage));
         }
+        //title
+
         Scene scene = new Scene(pane);
         stage.setTitle("Nijat_Calculatrice");
         stage.setScene(scene);
@@ -119,31 +127,16 @@ public class Calculatrice extends Application {
             case "ce":
                 out = "0";
                 break;
-            case "±":
-                try {
-                    out = String.valueOf(Integer.parseInt(text.getText()) * (-1));
-                } catch (NumberFormatException e) {
-                }
-                break;
+            case "%" :
+
             case "+":
             case "-":
-            case "X":     //这里的乘是大写字母X
+            case "X":
             case "/":
                 out = text.getText() + " " + s + " ";
                 break;
-            case "%":
-                try {
-                    Float getNum = Float.parseFloat(text.getText());
-                    double setNum = Math.pow(getNum, 2d);
-                    if (setNum % 1 == 0)
-                        out = String.valueOf((int) setNum);
-                    else
-                        out = String.valueOf(setNum);
-                } catch (NumberFormatException e) {
-                    System.err.println("Wrong Input");
-                    out = text.getText();
-                }
-                break;
+
+
             case "=":
                 out = getResult();
                 break;
