@@ -10,6 +10,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class Calculatrice extends Application {
     Text text = new Text(""); //create a new text
 
@@ -21,7 +23,7 @@ public class Calculatrice extends Application {
         String[] number = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }; //String array
         Button[] b = new Button[10]; // create a new Button array
 
-        String[] operate= {"/","X","-","+","="}; //String array
+        String[] operate= {"/","X","-","+","=",}; //String array
         Button[] o=new Button[5]; // create a new Button array
         GridPane gdpane = new GridPane(); // create a new gridpane
 
@@ -34,17 +36,23 @@ public class Calculatrice extends Application {
 
         // create Buttons
         Button zc = new Button("%");
+
         Button ce = new Button("ce");
         ce.setOnAction(e->add("ce"));  //to produce an action when it is clicked
-        Button yes = new Button("e");
+        Button yes = new Button("π");
+        yes.setOnAction(e->add("3.14"));
         Button x2 = new Button("x²");
+        x2.setOnAction(e->add("²"));
         Button x1 = new Button("1/x");
+        x1.setOnAction(e->add("1/"));
         Button c = new Button("C");
+        c.setOnAction(e->add(null));
         Button del = new Button("←");
+        //del.setOnAction(e->getResult()-(int)getResult());
         Button addandmin = new Button("±");
         Button point = new Button(".");
         for (int i = 0; i < 10; i++) {
-            b[i] = new Button(number[i]); //button array
+            b[i] = new Button(number[i]); //button array 0-9
             b[i].setPrefSize(80, 40); // b(10) buttons size et color
             b[i].setStyle("-fx-base:DARKSALMON");
         }
@@ -117,7 +125,7 @@ public class Calculatrice extends Application {
         stage.show();
 
     }
-
+    //fonction
     private void add(String s) {
         String out = "";
         if (text.getText().equals("0") || text.getText().equals("Erreur"))
@@ -127,6 +135,12 @@ public class Calculatrice extends Application {
             case "ce":
                 out = "0";
                 break;
+            case "C":
+                out = null;
+                break;
+
+
+
             case "%" :
 
             case "+":
@@ -152,10 +166,18 @@ public class Calculatrice extends Application {
             float result = Float.parseFloat(textbox[0]);
             for (int i = 2; i < textbox.length; i += 2) {
                 float num = Float.parseFloat(textbox[i]);
+
+              //  if(Objects.equals(textbox[i], "²"))
+
+
                 switch (textbox[i - 1]) {
                     case "+":
                         result += num;
                         break;
+                    case "x²" :
+                        result *=result;
+                        break;
+
                     case "-":
                         result -= num;
                         break;
@@ -165,6 +187,7 @@ public class Calculatrice extends Application {
                     case "X":
                         result *= num;
                         break;
+
                 }
             }
             if (result % 1 == 0)
@@ -172,7 +195,7 @@ public class Calculatrice extends Application {
             else
                 return String.valueOf(result);
         } catch (NumberFormatException e) {
-            System.err.println("wrong input || null String");
+            System.err.println("mauvaise entrée || null String");
             return "Erreur";
         }
     }
